@@ -1,3 +1,5 @@
+import numpy as np
+
 class Terreno(object):
     """Superclase Terreno. Comunica entre sí los objetos de la clase Animal, almacena información de sus posiciones y los administra (inserta, mueve, elimina)."""
 
@@ -37,7 +39,7 @@ class Terreno(object):
         vision_animal = animal.get_vision()
         # Establece límites de visión superior e inferior en las 2D de la grilla del terreno
         fila_min = fila_centro - vision_animal
-        fila_max = posicion_centro + vision_animal
+        fila_max = fila_centro + vision_animal
         columna_min = columna_centro - vision_animal
         columna_max = columna_centro + vision_animal
         # Corrige los límites si caen fuera de la grilla 2D; para ello lee antes el tamaño de la grilla
@@ -64,9 +66,9 @@ class Terreno(object):
         distancia_fila = abs(fila_B-fila_A)
         distancia_columna = abs(columna_B-columna_A)
         return distancia_fila+distancia_columna
-
+"""
     def mover(self, animal, posicion_objetivo):
-        """Mueve al 'animal' en la grilla 2D hacia la 'posición_objetivo' (tupla de la forma (fila,columna)), sin que ésta exceda su máxima velocidad."""
+        Mueve al 'animal' en la grilla 2D hacia la 'posición_objetivo' (tupla de la forma (fila,columna)), sin que ésta exceda su máxima velocidad.
         # Se ubica al 'animal' en la grilla
         posicion_animal = self.ubicar(animal)
         # Se calcula la distancia (en cantidad de pasos) a la 'posicion_objetivo" desde la ubicación del 'animal'
@@ -82,4 +84,4 @@ class Terreno(object):
             # Si sólo hay una posicion libre
             if len(posiciones_libres) == 1:
                 # CONTINUAR
-            # Procede a eliminar el 'animal' de su posición en la grilla para luego insertarlo en la nueva posición alcanzada
+            # Procede a eliminar el 'animal' de su posición en la grilla para luego insertarlo en la nueva posición alcanzada"""

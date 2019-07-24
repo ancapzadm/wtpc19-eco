@@ -1,8 +1,13 @@
 # Se importa la superclase de la cual hereda
 
 from sc_animal import Animal
+from sc_terreno import Terreno
+
+class Presa(Animal):
+    """Subclase Predador que hereda de la superclase Animal."""
 
     def decidir(self,terreno):
+
         """Etapa de planificación. Observa el terreno y decide una acción pensando como presa. Si observa un predador, se escapa; caso contrario, se queda quieta y decide pastar."""
         # Localiza a los predadores visibles entre sus vecinos visibles
         vecinos_visibles = terreno.ubicar_vecinos(self)
@@ -23,8 +28,11 @@ from sc_animal import Animal
             terreno.mover(self, posicion_lejana)
         # Si no visualiza predadores, decide pastar (no se mueve y aumenta su energía)
         else:
+            pass
             #self.modificar_energía(valor_porcentual)
 
     def ejecutar(self,terreno):
+        pass
         """Realiza la acción del plan."""
         # Debe modificarse el método decidir() para que guarde la orden de moverse en el atributo plan y luego aquí se intereprete y se ejecute.
+    

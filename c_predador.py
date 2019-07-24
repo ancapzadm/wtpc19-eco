@@ -28,10 +28,11 @@ class Predador(Animal):
             else:
                 terreno.mover(self, posicion_vecino_mas_cercano)
         # En caso de no observar presas cercanas, planea moverse en una dirección random
-       else:
+        else:
             posicion_random = terreno.generar_posicion_random(self)
             terreno.mover(self, posicion_random)
 
     def ejecutar(self,terreno):
+        pass
         """Realiza la acción del plan."""
         # Debe modificarse el método decidir() para que guarde la orden de moverse en el atributo plan y luego aquí se intereprete y se ejecute.
