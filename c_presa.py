@@ -2,11 +2,14 @@
 
 from sc_animal import Animal
 
+class Presa(Animal):
+    """Subclase Presa que hereda de la superclase Animal."""
+
     def decidir(self,terreno):
         """Etapa de planificación. Observa el terreno y decide una acción pensando como presa. Si observa un predador, se escapa; caso contrario, se queda quieta y decide pastar."""
         # Localiza a los predadores visibles entre sus vecinos visibles
         vecinos_visibles = terreno.ubicar_vecinos(self)
-        predadores_visibles = [vecino for vecino in vecinos_visibles if vecino.get_class() == "Predador"]
+        predadores_visibles = [vecino for vecino in vecinos_visibles if vecino.get_clase() == "Predador"]
         # Si visualiza predadores, calcula su distancia a ellas
         if len(predadores_visibles) != 0:
             distancias_y_vecinos = {}
@@ -23,8 +26,10 @@ from sc_animal import Animal
             terreno.mover(self, posicion_lejana)
         # Si no visualiza predadores, decide pastar (no se mueve y aumenta su energía)
         else:
+            pass
             #self.modificar_energía(valor_porcentual)
 
     def ejecutar(self,terreno):
         """Realiza la acción del plan."""
+        pass
         # Debe modificarse el método decidir() para que guarde la orden de moverse en el atributo plan y luego aquí se intereprete y se ejecute.

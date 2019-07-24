@@ -31,7 +31,7 @@ class Animal(object):
 
     def observar(self, terreno):
         """El animal observa a su alrededor. Devuelve una lista con los objetos animales que puede observar desde su posición en la grilla terreno."""
-        return vecinos_visibles = terreno.ubicar_vecinos(self)
+        return terreno.ubicar_vecinos(self)
         
     def modificar_energia(self, valor_porcentual):
         """El animal altera su energía por un valor porcentual (respecto de su energía máxima) que puede ser positivo (para aumentarla) o negativo (para disminuirla). La energía del animal tiene un límite inferior en '0' y uno superior en 'energia_maxima'."""

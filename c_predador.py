@@ -9,7 +9,7 @@ class Predador(Animal):
         """Etapa de planificación. Observa el terreno y decide una acción pensando como predador. Si observa una presa y ésta se encuentra a una distancia inferior a su velocidad máxima, planea comerla; caso contrario, si se encuentra dentro de su rango de visión, planea perseguirla: se mueve para reducir su distancia con la presa más cercana; si tampoco cumple esta última condición, se planea moverse en alguna dirección aleatoria, una cantidad de pasos aleatorios inferior a su velocidad."""
         # Localiza a las presas visibles entre sus vecinos visibles
         vecinos_visibles = terreno.ubicar_vecinos(self)
-        presas_visibles = [vecino for vecino in vecinos_visibles if vecino.get_class() == "Presa"]
+        presas_visibles = [vecino for vecino in vecinos_visibles if vecino.get_clase() == "Presa"]
         # Si visualiza presas, calcula su distancia a ellas
         if len(presas_visibles) != 0:
             distancias_y_vecinos = {}
@@ -28,10 +28,11 @@ class Predador(Animal):
             else:
                 terreno.mover(self, posicion_vecino_mas_cercano)
         # En caso de no observar presas cercanas, planea moverse en una dirección random
-       else:
-            posicion_random = terreno.generar_posicion_random(self)
-            terreno.mover(self, posicion_random)
+        else:
+           posicion_random = terreno.generar_posicion_random()
+           terreno.mover(self, posicion_random)
 
     def ejecutar(self,terreno):
         """Realiza la acción del plan."""
+        pass
         # Debe modificarse el método decidir() para que guarde la orden de moverse en el atributo plan y luego aquí se intereprete y se ejecute.

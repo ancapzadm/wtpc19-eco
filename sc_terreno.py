@@ -1,9 +1,27 @@
 class Terreno(object):
     """Superclase Terreno. Comunica entre sí los objetos de la clase Animal, almacena información de sus posiciones y los administra (inserta, mueve, elimina)."""
 
+    import numpy as np
+
     def __init__(self, nfilas, ncolumnas):
         """El constructor de un objeto de la clase Terreno crea array 2D de Numpy 'grilla' con 'nfilas' filas y 'ncolumnas' columnas. Cada celda de la grilla 2D es capaz de contener un único objeto animal; hace referencia a una posición en el espacio del problema."""
-        self.grilla = np.empty((nfilas,ncolumnas), dtype=object)
+        self.grilla = self.np.empty((nfilas,ncolumnas), dtype=object)
+
+    def visualizar(self):
+        """Devuelve una foto del terreno que corresponde a un array 2D que muestra por casilla un valor +1 para predadores, -1 para presas y 0 cuando está libre."""
+        def get_clase(animal):
+            """Esta función es luego vectorizada para trabajar con arrays. Devuelve el nombre de la clase del objeto 'animal'."""
+            if animal != None:
+                return animal.get_clase()
+        get_clase_v = self.np.vectorize(get_clase)
+        # Se traduce la grilla con objetos a una grilla con 0 y nombres de clases
+        foto = self.np.where(self.grilla == None, 0, get_clase_v(self.grilla))
+        # Convierte los nombres de clases a valores enteros
+        foto = self.np.where(foto == "Predador", 1, foto)
+        foto = self.np.where(foto == "Presa", -1, foto)
+        # Convierte el array de objetos a uno de enteros 
+        foto = foto.astype(int)
+        return foto
 
     def insertar(self, animal, posicion_objetivo):
         """Se inserta un objeto 'animal' en una 'posicion_objetivo' (tupla de la forma (fila,columna)) de la grilla 2D del terreno."""
@@ -11,7 +29,7 @@ class Terreno(object):
         fila_objetivo, columna_objetivo = posicion_objetivo
         self.grilla[fila_objetivo,columna_objetivo] = animal
 
-    def generar_posicion_random(self, animal):
+    def generar_posicion_random(self):
         """Se genera una posición aleatoria (fila,columna) que se encuentre vacía en la grilla del terreno."""
         # Se lee el tamaño de la grilla
         nfilas,ncolumnas = self.grilla.shape
@@ -19,15 +37,15 @@ class Terreno(object):
         exito = False
         while not exito:
             # Se genera una posición aleatoria
-            random_fila = np.random.randint(nfilas)
-            random_columna = np.random.randint(ncolumnas)
+            random_fila = self.np.random.randint(nfilas)
+            random_columna = self.np.random.randint(ncolumnas)
             # Se controla si la posición está vacía
             if self.grilla[random_fila,random_columna] == None: exito = True
         return (random_fila,random_columna)
 
     def ubicar(self, animal):
         """Informa la posición que tiene el objeto 'animal' en la grilla 2D, como una tupla (fila,columna)."""
-        return tuple(np.argwhere(self.grilla==animal)[0])
+        return tuple(self.np.argwhere(self.grilla==animal)[0])
 
     def ubicar_vecinos(self, animal):
         """Se devuelve una lista con los objetos animales vecinos que son visibles (dentro del rango de visión) para el objeto 'animal'."""
@@ -37,7 +55,7 @@ class Terreno(object):
         vision_animal = animal.get_vision()
         # Establece límites de visión superior e inferior en las 2D de la grilla del terreno
         fila_min = fila_centro - vision_animal
-        fila_max = posicion_centro + vision_animal
+        fila_max = fila_centro + vision_animal
         columna_min = columna_centro - vision_animal
         columna_max = columna_centro + vision_animal
         # Corrige los límites si caen fuera de la grilla 2D; para ello lee antes el tamaño de la grilla
@@ -48,6 +66,7 @@ class Terreno(object):
         if columna_max >= ncolumnas: columna_max = ncolumnas-1
         # Genera una lista de los vecinos que se encuentran en el rango de visión
         vecinos_visibles = self.grilla[fila_min:fila_max+1, columna_min:columna_max+1].flatten()
+        vecinos_visibles = [vecino for vecino in vecinos_visibles if vecino != None]
         return vecinos_visibles
 
     def eliminar(self, animal):
@@ -73,13 +92,5 @@ class Terreno(object):
         # Para moverse, el 'animal' trata de acortar la distancia por la componente más extensa, sin exceder su velocidad máxima ni atravesar casillas ocupadas; el 'animal' se detiene al alcanzar su 'posición_objetivo' (excepto que esté ocupada).
         nueva_fila,nueva_columna = posicion_animal
         velocidad_animal = animal.get_velocidad()
-        for paso in range(velocidad_animal):
-            # Se crea una lista de las posiciones libres alrededor del 'animal' para realizar un paso ([izquierda, derecha, arriba, abajo])
-            posiciones_libres = [(nueva_fila-1,nueva_columna),(nueva_fila+1,nueva_columna),(nueva_fila,nueva_columna+1),(nueva_fila,nueva_columna-1)]
-            posiciones_libres = [posicion for posicion in posiciones_libres if self.grilla[posicion[0],posicion[1]] == None]
-        # Si el animal no está atrapado
-        if len(posiciones_libres) != 0:
-            # Si sólo hay una posicion libre
-            if len(posiciones_libres) == 1:
                 # CONTINUAR
             # Procede a eliminar el 'animal' de su posición en la grilla para luego insertarlo en la nueva posición alcanzada

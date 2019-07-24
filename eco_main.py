@@ -3,7 +3,6 @@
 
 ###-----------------------------------
 ### 1) Se importan librerías y clases
-import numpy as np
 from c_presa import Presa
 from c_predador import Predador
 from sc_terreno import Terreno
@@ -16,14 +15,21 @@ if __name__ == "__main__":
         ## 2.3) Set de parámetros temporales
 
     ### 3) Se construye un estado inicial
-        ### 3.1) Se crean objetos terreno y animales
-        ### 3.2) Se insertan animales al terreno
-        ### 3.3) Se guarda y/o visualiza el estado inicial
+    ### 3.1) Se crean objetos terreno y animales
+    terreno = Terreno(10,10)
+    lobo = Predador(1,1,1)
+    ### 3.2) Se insertan animales al terreno
+    posicion_random = terreno.generar_posicion_random()
+    terreno.insertar(lobo, posicion_random)
+    ### 3.3) Se guarda y/o visualiza el estado inicial
 
     ### 4) Se ejecuta la simulación
-        ### 4.1) Todos los animales deciden un plan de acción
-        ### 4.2) Todos los animales ejecutan su plan
-            ## 4.2.1) Ejecutan los predadores
-            ## 4.2.2) Ejecutan las presas
-        ### 4.3) Se guarda y/o visualiza el estado actual
-        ### 4.4) Se avanza el paso temporal
+    lobo.decidir(terreno)
+    print(terreno.visualizar())
+
+    ### 4.1) Todos los animales deciden un plan de acción
+    ### 4.2) Todos los animales ejecutan su plan
+        ## 4.2.1) Ejecutan los predadores
+        ## 4.2.2) Ejecutan las presas
+    ### 4.3) Se guarda y/o visualiza el estado actual
+    ### 4.4) Se avanza el paso temporal
