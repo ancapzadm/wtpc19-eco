@@ -8,7 +8,7 @@ class Animal(object):
         self.energia_maxima = energia_maxima
         self.energia = energia_maxima
         self.nutricion = nutricion 
-		self.coste_moverse = coste_moverse
+        self.coste_moverse = coste_moverse
         self.plan = None
 
     def get_velocidad(self):
