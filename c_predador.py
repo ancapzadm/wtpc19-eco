@@ -30,7 +30,7 @@ class Predador(Animal):
             else:
                 plan=2
                 terreno.ejecutar(self,terreno)
-                posicion_cercana=terreno.generar_posicion_cercana(self,vecino_mas_cercano)    
+                posicion_cercana=terreno.generar_posicion_cercana_o_lejana(self,vecino_mas_cercano,0.5)#0.5 para cercana_1 para lejana    
                 terreno.mover(self, posicion_cercana)
             
         # En caso de no observar presas cercanas, planea moverse en una dirección random
@@ -45,9 +45,9 @@ class Predador(Animal):
         """Realiza la acción del plan."""
         if (plan==1 and self.energia<=self.energia_maxima):
            terreno.eliminar(vecino_mas_cercano)# aqui se debora al animal y ocupa su lugar
-           self.energia+=1#se incrementa su energia en 1
+           self.energia+=5#se incrementa su energia 
         else:
-           self.energia-=1#como de todos modods se movio para perseguir la presa pierde energia
+           self.energia-=5#como de todos modods se movio para perseguir la presa pierde energia
             
        # pass
         # Debe modificarse el método decidir() para que guarde la orden de moverse en el atributo plan y luego aquí se intereprete y se ejecute.

@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # 2.2.1) Predadores
     n_predadores = 5
     velocidad_predador = 1
-    vision_predador = 10
+    vision_predador = 8
     energia_maxima_predador = 20
     # 2.2.2) Presas
     n_presas = 20
@@ -36,17 +36,18 @@ if __name__ == "__main__":
     terreno = Terreno(n_filas,n_columnas)
     ## 3.2) Se crean e insertan animales al terreno con una posición random
     # 3.2.1) Predadores
-    for i in range(n_predadores):
-        predador = Predador(velocidad_predador, vision_predador, energia_maxima_predador)
-        posicion_random = terreno.generar_posicion_random()
-        terreno.insertar(predador, posicion_random)
-    # 3.2.2) Presas
-    for j in range(n_presas):
-        presa = Presa(velocidad_presa, vision_presa, energia_maxima_presa)
-        posicion_random = terreno.generar_posicion_random()
-        terreno.insertar(presa, posicion_random)    
-    ### 3.3) Se visualiza el estado inicial
-    #plt.ion()
+    for i in range(pasos_temporales):
+        for i in range(n_predadores):
+            predador = Predador(velocidad_predador, vision_predador, energia_maxima_predador)
+            posicion_random = terreno.generar_posicion_random()
+            terreno.insertar(predador, posicion_random)
+            # 3.2.2) Presas
+        for j in range(n_presas):
+            presa = Presa(velocidad_presa, vision_presa, energia_maxima_presa)
+            posicion_random = terreno.generar_posicion_random()
+            terreno.insertar(presa, posicion_random)    
+            ### 3.3) Se visualiza el estado inicial
+            #plt.ion()
     plt.imshow(terreno.visualizar())
     plt.show()
     for j in range(n_predadores):
