@@ -22,17 +22,32 @@ class Predador(Animal):
             posicion_vecino_mas_cercano = terreno.ubicar(vecino_mas_cercano)
             # Si está más cerca que su velocidad máxima, planea comerlo (se ubica en la posición de la grilla de la presa y ésta desaparece) 
             if distancia_menor <= self.velocidad:
+                plan=1 
+                terreno.ejecutar(self,terreno)
                 terreno.mover(self, posicion_vecino_mas_cercano)
                 #self.modificar_energía(valor_porcentual)
-            # Si no está lo suficientemente próximo, planea perseguirlo    
+            # Si no está lo suficientemente próxiomo, planea perseguirlo    
             else:
-                terreno.mover(self, posicion_vecino_mas_cercano)
+                plan=2
+                terreno.ejecutar(self,terreno)
+                posicion_cercana=terreno.generar_posicion_cercana(self,vecino_mas_cercano)    
+                terreno.mover(self, posicion_cercana)
+            
         # En caso de no observar presas cercanas, planea moverse en una dirección random
         else:
+           plan=3
+           terreno.ejecutar(self,terreno)
            posicion_random = terreno.generar_posicion_random()
            terreno.mover(self, posicion_random)
+           
 
     def ejecutar(self,terreno):
         """Realiza la acción del plan."""
-        pass
+        if (plan==1 and self.energia<=self.energia_maxima):
+           terreno.eliminar(vecino_mas_cercano)# aqui se debora al animal y ocupa su lugar
+           self.energia+=1#se incrementa su energia en 1
+        else:
+           self.energia-=1#como de todos modods se movio para perseguir la presa pierde energia
+            
+       # pass
         # Debe modificarse el método decidir() para que guarde la orden de moverse en el atributo plan y luego aquí se intereprete y se ejecute.

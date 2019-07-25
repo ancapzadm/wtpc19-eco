@@ -22,7 +22,7 @@ if __name__ == "__main__":
     n_predadores = 5
     velocidad_predador = 1
     vision_predador = 10
-    energia_maxima_predador = 10
+    energia_maxima_predador = 20
     # 2.2.2) Presas
     n_presas = 20
     velocidad_presa = 1
@@ -49,7 +49,8 @@ if __name__ == "__main__":
     #plt.ion()
     plt.imshow(terreno.visualizar())
     plt.show()
-
+    for j in range(n_predadores):
+        print(predador.get_energia())
     ### 4) Se ejecuta la simulación
 """	for paso in range(pasos_temporales):
 		posicion_random = terreno.generar_posicion_random()

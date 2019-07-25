@@ -6,7 +6,7 @@ class Animal(object):
         self.velocidad = velocidad
         self.vision = vision
         self.energia_maxima = energia_maxima
-        self.energia = energia_maxima
+        self.energia = energia_maxima/2
         self.plan = None
 
     def get_velocidad(self):

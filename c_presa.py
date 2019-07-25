@@ -23,13 +23,20 @@ class Presa(Animal):
             # Se aleja del predador más próximo
             # CONITINUAR (Se tiene que idear una forma de que elija una posicion lejana dentro de la grilla, que esté vacía, a la cual desea escaparse; debe considerar la posición del predador más próximo para que esto funciones)
             # posicion_lejana = 
+            plan=1 
+            terreno.ejecutar(self,terreno)
+            posicion_lejana=terreno.generar_posicion_lejana(self,vecino_mas_cercano) 
             terreno.mover(self, posicion_lejana)
         # Si no visualiza predadores, decide pastar (no se mueve y aumenta su energía)
         else:
-            pass
+            plan=2
             #self.modificar_energía(valor_porcentual)
 
     def ejecutar(self,terreno):
         """Realiza la acción del plan."""
-        pass
+        if (plan==1 and self.energia<=self.energia_maxima):
+         #  self.pastar()# aqui se debora al animal y ocupa su lugar
+           self.energia+=1#se incrementa su energia en 1 porque pasta
+        else:
+           self.energia-=1#pierde energia porque se mueve
         # Debe modificarse el método decidir() para que guarde la orden de moverse en el atributo plan y luego aquí se intereprete y se ejecute.

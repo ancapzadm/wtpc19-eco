@@ -42,6 +42,50 @@ class Terreno(object):
             # Se controla si la posición está vacía
             if self.grilla[random_fila,random_columna] == None: exito = True
         return (random_fila,random_columna)
+    
+    def generar_posicion_cercana(self,animal):
+        """Se genera una posición de acuerdo a la energia de la que disponga (fila,columna) que se encuentre vacía en la grilla del terreno."""
+        # Se lee el tamaño de la grilla
+        nfilas,ncolumnas = self.grilla.shape
+        # Se realiza el proceso hasta que se logre conseguir una posición vacía
+        exito = False
+        while not exito:
+            # Se genera una posición segun su energia
+            fila_centro,columna_centro = self.ubicar(animal)
+            #energia_animal = animal.get_energia()
+            fila_min = fila_centro - 5#el cazador se acerca a la presa
+            columna_min = columna_centro - 5
+            #columna_max = columna_centro + energia_animal*0.1
+            nfilas,ncolumnas = self.grilla.shape
+            if fila_min < 0: fila_min = 0
+            if columna_min < 0: columna_min = 0
+            # if fila_max >= nfilas: fila_max = nfilas-1 
+            # if columna_max >= ncolumnas: columna_max = ncolumnas-1
+            # Se controla si la posición está vacía
+            if self.grilla[fila_min, columna_min] == None: exito = True
+        return (fila_min,columna_min)
+    
+        def generar_posicion_lejana(self,animal):
+            """Se genera una posición de acuerdo a la energia de la que disponga (fila,columna) que se encuentre vacía en la grilla del terreno."""
+            # Se lee el tamaño de la grilla
+            nfilas,ncolumnas = self.grilla.shape
+            # Se realiza el proceso hasta que se logre conseguir una posición vacía
+            exito = False
+            while not exito:
+                # Se genera una posición segun su energia
+                fila_centro,columna_centro = self.ubicar(animal)
+                #energia_animal = animal.get_energia()
+                fila_max = fila_centro + 5#la presa se aleja del cazador 
+                columna_max = columna_centro + 5
+                #columna_max = columna_centro + energia_animal*0.1
+                nfilas,ncolumnas = self.grilla.shape
+                # if fila_min < 0: fila_min = 0
+                # if columna_min < 0: columna_min = 0
+                if fila_max >= nfilas: fila_max = nfilas-1 
+                if columna_max >= ncolumnas: columna_max = ncolumnas-1
+                # Se controla si la posición está vacía
+            if self.grilla[fila_max, columna_max] == None: exito = True
+        return (fila_max,columna_max)
 
     def ubicar(self, animal):
         """Informa la posición que tiene el objeto 'animal' en la grilla 2D, como una tupla (fila,columna)."""
