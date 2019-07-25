@@ -13,15 +13,17 @@ class Presa(Animal):
         # Si visualiza predadores, calcula su distancia a ellas
         if len(predadores_visibles) != 0:
             distancias_y_vecinos = {}
-            for vecino in lista_vecinos:
-                distancia = terreno.calcular_distancia(terreno.ubicar(self), terreno_ubicar(vecino))
+            for vecino in vecinos_visibles:
+                posicion_A = terreno.ubicar(self)
+                posicion_B = terreno.ubicar(vecino)
+                distancia = terreno.calcular_distancia(posicion_A, posicion_B)
                 distancias_y_vecinos[distancia] = vecino
             # Determina el vecino más cercano
             distancia_menor = min(list(distancias_y_vecinos.keys()))
             vecino_mas_cercano = distancias_y_vecinos[distancia_menor]
             posicion_vecino_mas_cercano = terreno.ubicar(vecino_mas_cercano)
             # Se aleja del predador más próximo
-            posicion_lejana = terreno.generar_posicion_lejana(self, vecino_mas_cercano)
+            posicion_lejana = terreno.generar_posicion_lejana(self, posicion_vecino_mas_cercano)
             self.plan = ("Huir", posicion_lejana)
        # Si no visualiza predadores, decide pastar (no se mueve y aumenta su energía)
         else:
@@ -30,10 +32,13 @@ class Presa(Animal):
     def ejecutar(self,terreno):
         """Realiza la acción del plan."""
         if self.plan[0] == "Huir":
+            print("¡Animal huyó!")
             # Se aleja del depredador más próximo
-            terreno.mover(self, self.plan[1])
+            posicion_alejada = self.plan[1]
+            terreno.mover(self, posicion_alejada)
             # Pierde energía por moverse
-            self.modificar_energía(-self.coste_moverse)
+            self.modificar_energia(-self.coste_moverse)
         elif self.plan[0] == "Pastar":
+            print("¡Animal pastó!")
             # No se mueve y gana energía por comer pasto
             self.modificar_energia(self.nutricion)

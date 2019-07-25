@@ -13,8 +13,10 @@ class Predador(Animal):
         # Si visualiza presas, calcula su distancia a ellas
         if len(presas_visibles) != 0:
             distancias_y_vecinos = {}
-            for vecino in lista_vecinos:
-                distancia = terreno.calcular_distancia(terreno.ubicar(self), terreno_ubicar(vecino))
+            for vecino in vecinos_visibles:
+                posicion_A = terreno.ubicar(self)
+                posicion_B = terreno.ubicar(vecino)
+                distancia = terreno.calcular_distancia(posicion_A, posicion_B)
                 distancias_y_vecinos[distancia] = vecino
             # Determina el vecino más cercano
             distancia_menor = min(list(distancias_y_vecinos.keys()))
@@ -22,7 +24,7 @@ class Predador(Animal):
             posicion_vecino_mas_cercano = terreno.ubicar(vecino_mas_cercano)
             # Si está más cerca que su velocidad máxima, planea comerlo (se ubica en la posición de la grilla de la presa y ésta desaparece) 
             if distancia_menor <= self.velocidad:
-                self.plan = ("Comer", vecino_mas_cercano)    
+                self.plan = ("Comer", posicion_vecino_mas_cercano)    
             # Si no está lo suficientemente próximo, planea perseguirlo    
             else:
                 self.plan = ("Perseguir", posicion_vecino_mas_cercano)
@@ -34,12 +36,16 @@ class Predador(Animal):
     def ejecutar(self,terreno):
         """Realiza la acción del plan."""
         if self.plan[0] == "Comer":
+            print("¡Animal comió!")
             # Se mueve a la posición de la presa, borrándola de la grilla
-            terreno.mover(self, self.plan[1])
+            presa_objetivo = self.plan[1]
+            terreno.mover(self, presa_objetivo)
             # Gana energía por consumir su presa
-            self.modificar_energía(self.nutricion)
+            self.modificar_energia(self.nutricion)
         elif self.plan[0] == "Perseguir" or self.plan[0] == "Explorar":
             # Se aproxima a su presa objetivo / se mueve a una posición random
-            terreno.mover(self, self.plan[1])
+            print("¡Animal presiguió / exploró!")
+            posicion_objetivo = self.plan[1]
+            terreno.mover(self, posicion_objetivo)
             # Pierde energía por moverse
-            self.modificar_energía(-self.coste_moverse)
+            self.modificar_energia(-self.coste_moverse)
