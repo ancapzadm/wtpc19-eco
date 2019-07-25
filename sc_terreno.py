@@ -90,4 +90,56 @@ class Terreno(object):
 
     def mover(self, animal, posicion_objetivo):
         """Mueve al 'animal' en la grilla 2D hacia la 'posición_objetivo' (tupla de la forma (fila,columna)), sin que ésta exceda su máxima velocidad."""
-        pass
+        import random
+
+		posicion_animal = self.ubicar(animal)
+    	fila_animal, columna_animal = posicion_animal
+    	fila_objetivo, columna_objetivo = pos_objetivo
+    	fila_nueva, columna_nueva = fila_animal, columna_animal # Esta es la nueva posicion virtual (tentativo)
+		velociad_animal = animal.get_velocidad()
+
+		# Itero para la cantidad de pasos que puedo hacer
+		for paso in range(velocidad_animal):
+			# Calculo distancia
+			distancia_fila = fila_objetivo-xn
+			distancia_columna = columna_objetivo-yn
+			signo_fila = np.sign(distancia_fila)
+			signo_columna = np.sign(distancia_columna)
+			distancia_fila = abs(distancia_fila)
+			distancia_columna = abs(distancia_columna)    
+
+			# Lista de posibilidades en el movimiento
+			posibilidades = []
+
+			# Ordeno las posibilidades por prioridades (acorto la distancia más extensa)
+			if distancia_fila != 0 and distancia_columna != 0:
+				if distancia_fila > distancia_columna:
+					movimiento_en_fila = (fila_nueva+signo_fila, columna_nueva)					
+					posibilidades.append(movimiento_en_fila)
+					if distancia_columna != 0:
+						movimiento_en_columna = (fila_nueva, columna_nueva+signo_columna) 
+						posibilidades.append(movimiento_en_columna)
+				else:
+					movimiento_en_columna = (fila_nueva, columna_nueva+signo_columna) 
+					posibilidades.append(movimiento_en_columna)
+					if distancia_fila != 0:
+						movimiento_en_fila = (fila_nueva+signo_fila, columna_nueva)
+						posibilidades.append(movimiento_en_fila)
+
+				# En el caso de que las distancias sean iguales, la prioridad de los dos movimientos posibles es asignada al azar
+				if distancia_fila == distancia_columna: self.random.shuffle(posibilidades)
+
+				# Itero entre las posibilidades: intento moverme a la primera posibilidad siempre que el casillero al cual me muevo esté libre
+				for movimiento in posibilidades:
+					fila_movimiento, columna_movimiento = movimiento
+					posicion = self.grilla[fila_movimiento,columna_movimiento] 
+					if posicion == None or posicion.get_clase() == “Presa”:
+						fila_nueva, columna_nueva = fila_movimiento, columna_movimiento
+						break
+
+    	# Genero la nueva posicion
+    	nueva_posicion = (fila_nueva, columna_nueva)
+
+    	# Muevo el objeto en la grilla
+    	self.eliminar(animal)
+    	self.insertar(animal, nueva_posicion)
