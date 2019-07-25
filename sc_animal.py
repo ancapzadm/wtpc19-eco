@@ -1,12 +1,14 @@
 class Animal(object):
     """Superclase Animal. Atributos y métodos compartidos por las presas y los predadores."""
 
-    def __init__(self, velocidad, vision, energia_maxima):
-        """El constructor inicializa todos los atributos de un objeto de la clase Animal. La 'energia' del animal comienza con un valor equivalente al 100% de su 'energia_maxima' (medida de la constitución del animal)."""
+    def __init__(self, velocidad, vision, energia_maxima, nutricion, coste_moverse):
+        """El constructor inicializa todos los atributos de un objeto de la clase Animal. La 'energia' del animal comienza con un valor equivalente al 100% de su 'energia_maxima' (medida de la constitución del animal). El atributo 'nutricion' hace referencia a qué porcentaje de la 'energía_máxima' recupera el animal al comer."""
         self.velocidad = velocidad
         self.vision = vision
         self.energia_maxima = energia_maxima
         self.energia = energia_maxima
+        self.nutricion = nutricion 
+		self.coste_moverse = coste_moverse
         self.plan = None
 
     def get_velocidad(self):

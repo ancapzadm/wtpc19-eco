@@ -22,12 +22,16 @@ if __name__ == "__main__":
     n_predadores = 5
     velocidad_predador = 1
     vision_predador = 10
-    energia_maxima_predador = 10
+    energia_maxima_predador = 20
+    nutricion_predador = 25
+    coste_moverse_predador = 2
     # 2.2.2) Presas
     n_presas = 20
     velocidad_presa = 1
     vision_presa = 10
     energia_maxima_presa = 10
+    nutricion_presa = 5
+    coste_moverse_presa = 2
     ## 2.3) Set de parámetros temporales
     pasos_temporales = 10
 
@@ -37,12 +41,12 @@ if __name__ == "__main__":
     ## 3.2) Se crean e insertan animales al terreno con una posición random
     # 3.2.1) Predadores
     for i in range(n_predadores):
-        predador = Predador(velocidad_predador, vision_predador, energia_maxima_predador)
+        predador = Predador(velocidad_predador, vision_predador, energia_maxima_predador, nutricion_predador, coste_moverse_predador)
         posicion_random = terreno.generar_posicion_random()
         terreno.insertar(predador, posicion_random)
     # 3.2.2) Presas
     for j in range(n_presas):
-        presa = Presa(velocidad_presa, vision_presa, energia_maxima_presa)
+        presa = Presa(velocidad_presa, vision_presa, energia_maxima_presa, nutricion_presa, coste_moverse_presa)
         posicion_random = terreno.generar_posicion_random()
         terreno.insertar(presa, posicion_random)    
     ### 3.3) Se visualiza el estado inicial

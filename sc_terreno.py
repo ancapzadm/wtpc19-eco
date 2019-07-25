@@ -43,6 +43,10 @@ class Terreno(object):
             if self.grilla[random_fila,random_columna] == None: exito = True
         return (random_fila,random_columna)
 
+	def generar_posicion_lejana(self, animal):
+		"""Genera una posición alejada de otra posición, que se encuentre libre y dentro de la grilla 2D."""
+		pass
+
     def ubicar(self, animal):
         """Informa la posición que tiene el objeto 'animal' en la grilla 2D, como una tupla (fila,columna)."""
         return tuple(self.np.argwhere(self.grilla==animal)[0])
@@ -86,11 +90,4 @@ class Terreno(object):
 
     def mover(self, animal, posicion_objetivo):
         """Mueve al 'animal' en la grilla 2D hacia la 'posición_objetivo' (tupla de la forma (fila,columna)), sin que ésta exceda su máxima velocidad."""
-        # Se ubica al 'animal' en la grilla
-        posicion_animal = self.ubicar(animal)
-        # Se calcula la distancia (en cantidad de pasos) a la 'posicion_objetivo" desde la ubicación del 'animal'
-        # Para moverse, el 'animal' trata de acortar la distancia por la componente más extensa, sin exceder su velocidad máxima ni atravesar casillas ocupadas; el 'animal' se detiene al alcanzar su 'posición_objetivo' (excepto que esté ocupada).
-        nueva_fila,nueva_columna = posicion_animal
-        velocidad_animal = animal.get_velocidad()
-                # CONTINUAR
-            # Procede a eliminar el 'animal' de su posición en la grilla para luego insertarlo en la nueva posición alcanzada
+		pass
