@@ -159,7 +159,7 @@ class Terreno(object):
             posibilidades = []
 
             # Ordeno las posibilidades por prioridades (acorto la distancia más extensa)
-            if distancia_fila != 0 and distancia_columna != 0:
+            if distancia_fila != 0 or distancia_columna != 0:
                 if distancia_fila > distancia_columna:
                     movimiento_en_fila = (fila_nueva+signo_fila, columna_nueva)                    
                     posibilidades.append(movimiento_en_fila)
@@ -183,11 +183,13 @@ class Terreno(object):
                     # Esta sección depende de la subclase del animal
                     if animal.get_clase() == "Predador":
                         if posicion == None or posicion.get_clase() == "Presa":
-                            fila_nueva, columna_nueva = fila_movimiento, columna_movimiento
+                            fila_nueva = fila_movimiento
+                            columna_nueva = columna_movimiento
                             break
                     elif animal.get_clase() == "Presa":
                         if posicion == None:
-                            fila_nueva, columna_nueva = fila_movimiento, columna_movimiento
+                            fila_nueva = fila_movimiento
+                            columna_nueva = columna_movimiento
                             break
 
         # Genero la nueva posicion

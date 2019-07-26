@@ -16,8 +16,8 @@ if __name__ == "__main__":
 
     ### 2) Se establecen los parámetros de simulación
     ## 2.1) Set de parámetros de terreno
-    n_filas = 10
-    n_columnas = 10
+    n_filas = 20
+    n_columnas = 20
     ## 2.2) Set de parámetros para animales
     # 2.2.1) Predadores
     n_predadores = 1
@@ -34,9 +34,9 @@ if __name__ == "__main__":
     nutricion_presa = 5
     coste_moverse_presa = 2
     ## 2.3) Set de parámetros temporales
-    pasos_temporales = 10
+    pasos_temporales = 100
     delay_creacion = 0.1 # Tiempo de espera entre creaciones [s]
-    delay_simulacion = 1 # Tiempo de espera entre pasos temporales [s]
+    delay_simulacion = 0.2 # Tiempo de espera entre pasos temporales [s]
 
     ### 3) Se construye un estado inicial
     ## 3.1) Se crea el objeto terreno
