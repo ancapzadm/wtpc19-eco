@@ -26,17 +26,19 @@ class Terreno(object):
         return predadores_grilla
 
     def visualizar(self):
-        """Devuelve una foto del terreno que corresponde a un array 2D que muestra por casilla un valor 2 para predadores, 1 para presas y 0 cuando está libre."""
+        """Devuelve una foto del terreno que corresponde a un array 2D que muestra por casilla un valor 1 para predadores, -1 para presas y 0 cuando está libre."""
+        visiones = {}
         def get_clase(animal):
             """Esta función es luego vectorizada para trabajar con arrays. Devuelve el nombre de la clase del objeto 'animal'."""
             if animal != None:
-                return animal.get_clase()
+                nombre_clase = animal.get_clase()
+                return nombre_clase
         get_clase_v = self.np.vectorize(get_clase)
-        # Se traduce la grilla con objetos a una grilla con 0 y nombres de clases
+        # Se traduce la grilla con objetos a una grilla con 0 y nombres de clases (strings)
         foto = self.np.where(self.grilla == None, 0, get_clase_v(self.grilla))
         # Convierte los nombres de clases a valores enteros
-        foto = self.np.where(foto == "Predador", 2, foto)
-        foto = self.np.where(foto == "Presa", 1, foto)
+        foto = self.np.where(foto == "Predador", 1, foto)
+        foto = self.np.where(foto == "Presa", -1, foto)
         # Convierte el array de objetos a uno de enteros 
         foto = foto.astype(int)
         return foto
