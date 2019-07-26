@@ -24,7 +24,7 @@ if __name__ == "__main__":
         if emoji != None:
             text_fila, text_columna = terreno.ubicar(animal)
             # Por alguna razón tienen que ir al revés fila y columna
-            text_emoji = plt.text(text_columna-0.75, text_fila+0.25, emoji[0], color = "white", fontsize=12, rotation=emoji[1])
+            text_emoji = plt.text(text_columna-0.65, text_fila+0.275, emoji[0], color = "white", fontsize=12.5, rotation=emoji[1])
             lista_emojis.append(text_emoji)
 
     def borrar_emojis(lista_emojis):
