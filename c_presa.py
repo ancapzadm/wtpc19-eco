@@ -26,8 +26,7 @@ class Presa(Animal):
             posicion_lejana = terreno.generar_posicion_lejana(self, posicion_predador_mas_cercano)
             self.plan = ("Huir", posicion_lejana)
        # Si no visualiza predadores, decide pastar (no se mueve y aumenta su energía)
-        else:
-            self.plan = ("Pastar")
+        else: self.plan = ("Pastar",None)
 
     def ejecutar(self,terreno):
         """Realiza la acción del plan."""

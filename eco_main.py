@@ -14,6 +14,24 @@ from sc_terreno import Terreno
 
 if __name__ == "__main__":
 
+    ### Se definen funciones para visualizar emojis
+    def crear_emoji(terreno, animal, lista_emojis):
+        """..."""
+        emojis = {"Comer":(":w",-90), "Perseguir":(":s",-90), "Explorar":(" ?",0), "Huir":(":o",-90), "Pastar":(":3",-90)}
+        emoji = None
+        try: emoji = emojis[animal.get_plan()[0]]
+        except: pass
+        if emoji != None:
+            text_fila, text_columna = terreno.ubicar(animal)
+            # Por alguna razón tienen que ir al revés fila y columna
+            text_emoji = plt.text(text_columna-0.75, text_fila+0.25, emoji[0], color = "white", fontsize=12, rotation=emoji[1])
+            lista_emojis.append(text_emoji)
+
+    def borrar_emojis(lista_emojis):
+        """..."""
+        for text_emoji in lista_emojis:
+            text_emoji.set_visible(False)
+
     ### 2) Se establecen los parámetros de simulación
     ## 2.1) Set de parámetros de terreno
     n_filas = 20
@@ -79,6 +97,8 @@ if __name__ == "__main__":
     
     ### 4) Se ejecuta la simulación
     for paso_tiempo in range(pasos_temporales):
+        ### 4.0) Lista de emojis a limpiar
+        lista_emojis = []
         ### 4.1) Todos los animales deciden un plan de acción
         for animal in terreno.get_animales():
             animal.decidir(terreno)
@@ -86,9 +106,12 @@ if __name__ == "__main__":
         ## 4.2.1) Ejecutan los predadores
         for predador in terreno.get_predadores():
             predador.ejecutar(terreno)
+            crear_emoji(terreno, predador, lista_emojis)
         ## 4.2.2) Ejecutan las presas
         for presa in terreno.get_presas():
+            # 4.2.1.1) Emoticón de acción
             presa.ejecutar(terreno)
+            crear_emoji(terreno, presa, lista_emojis)
         ### 4.3) Se visualiza el estado actual
         foto_terreno = terreno.visualizar()
         figura.set_data(foto_terreno)
@@ -100,3 +123,4 @@ if __name__ == "__main__":
         text_presas = plt.text(n_filas*0.7, n_columnas*1.05, "Presas: %s"%len(terreno.get_presas()), color = "blue", fontsize=12)
         plt.draw()
         plt.pause(delay_simulacion) # Pausa para humanos
+        borrar_emojis(lista_emojis)
