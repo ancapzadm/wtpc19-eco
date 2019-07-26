@@ -25,7 +25,7 @@ class Terreno(object):
         predadores_grilla = [predador for predador in predadores_grilla if predador.get_clase() == 'Predador']
         return predadores_grilla
 
-    def visualizar(self):
+    def visualizar(self,predador,presa):
         """Devuelve una foto del terreno que corresponde a un array 2D que muestra por casilla un valor 2 para predadores, 1 para presas y 0 cuando está libre."""
         def get_clase(animal):
             """Esta función es luego vectorizada para trabajar con arrays. Devuelve el nombre de la clase del objeto 'animal'."""
@@ -39,6 +39,42 @@ class Terreno(object):
         foto = self.np.where(foto == "Presa", 1, foto)
         # Convierte el array de objetos a uno de enteros 
         foto = foto.astype(int)
+        maximo = len(foto)
+        for x in range(maximo):
+            for y in range(maximo):
+                if(foto[x,y]==1):
+                    vision_xmin = x - presa.vision
+                    if(vision_xmin < 0 ):
+                        vision_xmin = 0
+                    vision_xmax = x + presa.vision
+                    if(vision_xmax > maximo ):
+                        vision_xmax = maximo
+                    vision_ymin = y - presa.vision
+                    if(vision_ymin < 0 ):
+                        vision_ymin = 0
+                    vision_ymax = y + presa.vision                       
+                    if(vision_ymax > maximo ):
+                        vision_ymax = maximo
+                    foto[ vision_xmin : vision_xmax , vision_ymin : vision_ymax ] = self.np.ones( (vision_xmax - vision_xmin, vision_ymax - vision_ymin ) ) * 3
+                    foto[ vision_xmin+1 : vision_xmax-1 , vision_ymin+1 : vision_ymax-1 ] = self.np.ones( (vision_xmax - vision_xmin - 2, vision_ymax - vision_ymin - 2 ) )*0
+                    foto[x,y]=1
+                    
+                if(foto[x,y]==2):
+                    vision_xmin = x - predador.vision
+                    if(vision_xmin < 0 ):
+                        vision_xmin = 0
+                    vision_xmax = x + predador.vision
+                    if(vision_xmax > maximo ):
+                        vision_xmax = maximo
+                    vision_ymin = y - predador.vision
+                    if(vision_ymin < 0 ):
+                        vision_ymin = 0
+                    vision_ymax = y + predador.vision                      
+                    if(vision_ymax > maximo ):
+                        vision_ymax = maximo
+                    foto[ vision_xmin : vision_xmax , vision_ymin : vision_ymax ] = self.np.ones( (vision_xmax - vision_xmin, vision_ymax - vision_ymin ) ) * 4
+                    foto[ vision_xmin+1 : vision_xmax-1 , vision_ymin+1 : vision_ymax-1 ] = self.np.ones( (vision_xmax - vision_xmin - 2, vision_ymax - vision_ymin - 2 ) )*0
+                    foto[x,y]=2                    
         return foto
 
     def insertar(self, animal, posicion_objetivo):
