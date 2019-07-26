@@ -16,25 +16,27 @@ if __name__ == "__main__":
 
     ### 2) Se establecen los parámetros de simulación
     ## 2.1) Set de parámetros de terreno
-    n_filas = 100
-    n_columnas = 100
+    n_filas = 10
+    n_columnas = 10
     ## 2.2) Set de parámetros para animales
     # 2.2.1) Predadores
-    n_predadores = 4
+    n_predadores = 1
     velocidad_predador = 1
-    vision_predador = 10
+    vision_predador = 4
     energia_maxima_predador = 20
     nutricion_predador = 25
     coste_moverse_predador = 2
     # 2.2.2) Presas
-    n_presas = 10
+    n_presas = 15
     velocidad_presa = 1
-    vision_presa = 20
+    vision_presa = 5
     energia_maxima_presa = 10
     nutricion_presa = 5
     coste_moverse_presa = 2
     ## 2.3) Set de parámetros temporales
     pasos_temporales = 10
+    delay_creacion = 0.1 # Tiempo de espera entre creaciones [s]
+    delay_simulacion = 1 # Tiempo de espera entre pasos temporales [s]
 
     ### 3) Se construye un estado inicial
     ## 3.1) Se crea el objeto terreno
@@ -57,9 +59,9 @@ if __name__ == "__main__":
         figura.set_data(foto_terreno)
         try: text_predadores.set_visible(False)
         except: pass
-        text_predadores = plt.text(n_filas*0.1, n_columnas*1.05, "Predadores: %s"%len(terreno.get_predadores()), color = "red", fontsize=12)
+        text_predadores = plt.text(n_filas*0.07, n_columnas*1.05, "Predadores: %s"%len(terreno.get_predadores()), color = "red", fontsize=12)
         plt.draw()
-        plt.pause(0.2) # Pausa para humanos
+        plt.pause(delay_creacion) # Pausa para humanos
 
     # 3.2.2) Creación de Presas
     for j in range(n_presas):
@@ -73,7 +75,7 @@ if __name__ == "__main__":
         except: pass
         text_presas = plt.text(n_filas*0.7, n_columnas*1.05, "Presas: %s"%len(terreno.get_presas()), color = "blue", fontsize=12)
         plt.draw()
-        plt.pause(0.2) # Pausa de medio segundo para humanos
+        plt.pause(delay_creacion) # Pausa para humanos
     
     ### 4) Se ejecuta la simulación
     for paso_tiempo in range(pasos_temporales):
@@ -92,9 +94,9 @@ if __name__ == "__main__":
         figura.set_data(foto_terreno)
         try: text_predadores.set_visible(False)
         except: pass
-        text_predadores = plt.text(n_filas*0.1, n_columnas*1.05, "Predadores: %s"%len(terreno.get_predadores()), color = "red", fontsize=12)
+        text_predadores = plt.text(n_filas*0.07, n_columnas*1.05, "Predadores: %s"%len(terreno.get_predadores()), color = "red", fontsize=12)
         try: text_presas.set_visible(False)
         except: pass
         text_presas = plt.text(n_filas*0.7, n_columnas*1.05, "Presas: %s"%len(terreno.get_presas()), color = "blue", fontsize=12)
         plt.draw()
-        plt.pause(0.4) # Pausa para humanos
+        plt.pause(delay_simulacion) # Pausa para humanos

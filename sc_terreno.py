@@ -65,18 +65,23 @@ class Terreno(object):
 
     def generar_posicion_lejana(self, animal, posicion_evitar):
         """Genera una posición alejada de otra posición, que se encuentre libre y dentro de la grilla 2D."""
-        # Obtenemos la posicion y velocidad máxima animal
-        velocidad_animal = animal.get_velocidad()
+        # Obtenemos la posicion y velocidad máxima del animal
         posicion_animal = self.ubicar(animal)
+        velocidad_animal = animal.get_velocidad()
         # Convertimos vectores (tuplas) a componentes
         fila_animal, columna_animal = posicion_animal
         fila_evitar, columna_evitar = posicion_evitar
-        # Calculamos el vector opuesto al que une animal con posicion_evitar
-        distancia_fila = fila_evitar - fila_animal
-        distancia_columna = columna_evitar - columna_animal
-        # La posicion lejana es el vector calculado arriba multiplicado por un factor arbitrario (que es la velocidad máxima del animal) con la intención de que la posicion alejada esté muy lejos de la posicione_evitar
-        fila_lejana = fila_animal + velocidad_animal * distancia_fila
-        columna_lejana = columna_animal + velocidad_animal * distancia_columna
+        # Calculamos el signo de cada diferencia
+        signo_fila = self.np.sign(fila_evitar-fila_animal)
+        signo_columna = self.np.sign(columna_evitar-columna_animal)
+        if signo_fila == 0: signo_fila = [-1,1][self.np.random.randint(2)]
+        if signo_columna == 0: signo_columna = [-1,1][self.np.random.randint(2)]
+        # La posicion lejana está a una velocidad maxima del animal en cada cateto; el signo menos en fila_lejana es por el sistema de coordenadas del sistema (aumenta hacia abajo y a la derecha) 
+        fila_lejana = fila_animal - signo_fila * 2*velocidad_animal
+        columna_lejana = columna_animal + signo_columna * 2*velocidad_animal
+        # La posición lejana generada se corre (o no) una velocidad maxima en x & y de forma azarosa
+        fila_lejana += velocidad_animal * ([-1,0,1][self.np.random.randint(3)])
+        columna_lejana += velocidad_animal * ([-1,0,1][self.np.random.randint(3)])
         # Corrige la posición por si se cae fuera de la grilla 2D; para ello lee antes el tamaño de la grilla
         nfilas,ncolumnas = self.grilla.shape
         if fila_lejana < 0: fila_lejana = 0
@@ -150,9 +155,6 @@ class Terreno(object):
             distancia_fila = abs(distancia_fila)
             distancia_columna = abs(distancia_columna)    
 
-            print(">",posicion_animal,posicion_objetivo)
-            print(distancia_fila, distancia_columna)
-
             # Lista de posibilidades en el movimiento
             posibilidades = []
 
@@ -177,14 +179,19 @@ class Terreno(object):
                 # Itero entre las posibilidades: intento moverme a la primera posibilidad siempre que el casillero al cual me muevo esté libre
                 for movimiento in posibilidades:
                     fila_movimiento, columna_movimiento = movimiento
-                    posicion = self.grilla[fila_movimiento,columna_movimiento] 
-                    if posicion == None or posicion.get_clase() == "Presa":
-                        fila_nueva, columna_nueva = fila_movimiento, columna_movimiento
-                        break
+                    posicion = self.grilla[fila_movimiento,columna_movimiento]
+                    # Esta sección depende de la subclase del animal
+                    if animal.get_clase() == "Predador":
+                        if posicion == None or posicion.get_clase() == "Presa":
+                            fila_nueva, columna_nueva = fila_movimiento, columna_movimiento
+                            break
+                    elif animal.get_clase() == "Presa":
+                        if posicion == None:
+                            fila_nueva, columna_nueva = fila_movimiento, columna_movimiento
+                            break
 
         # Genero la nueva posicion
         nueva_posicion = (fila_nueva, columna_nueva)
-        print("Movimiento de %s a %s"%(posicion_animal, nueva_posicion))
 
         # Muevo el objeto en la grilla
         self.eliminar(animal)
